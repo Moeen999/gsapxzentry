@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from "react";
 import Button from "./Button";
 import { TiLocationArrow } from "react-icons/ti";
 import { useGSAP } from "@gsap/react";
-gsap.registerPlugin(ScrollTrigger);
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const Hero = () => {
   const [currIndex, setCurrIndex] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);
@@ -13,23 +15,22 @@ const Hero = () => {
   const totalVideos = 4;
   const nextVidRef = useRef(null);
   const upcomingIndex = (currIndex % totalVideos) + 1;
+
   const handleVDclick = () => {
     setHasClicked(true);
     setCurrIndex(upcomingIndex);
   };
 
-  const getVideoSRC = (index) => `videos/hero-${index}.mp4`;
+  const getVideoSRC = (index) => `/videos/hero-${index}.mp4`;
+
   const handleVideoLoad = () => {
     setloadedVideos((prevVideo) => prevVideo + 1);
   };
 
-  // GSAP Animations
   useGSAP(
     () => {
       if (hasClicked) {
-        gsap.set("#next-video", {
-          visibility: "visible",
-        });
+        gsap.set("#next-video", { visibility: "visible" });
         gsap.to("#next-video", {
           transformOrigin: "center center",
           scale: 1,
@@ -57,7 +58,6 @@ const Hero = () => {
     }
   }, [loadedVideos]);
 
-  // clipPath
   useGSAP(() => {
     gsap.set("#videoFrame", {
       clipPath: "polygon(14% 0, 72% 0, 88% 90%, 0 95%)",
